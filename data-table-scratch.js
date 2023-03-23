@@ -66,14 +66,8 @@ class Table {
 		const bottom = `
 			<!-- card footer -->
 			<div class="col card-footer">
-				<div class="row">
-					<div class="col-3 bg-info d-flex flex-column align-items-start justify-content-center rounded-3">
-						<h3 class="pt-2">Approved Amount</h3>
-						<span class="pb-2">Rs.20,000.00</span>
-					</div>
-					<div class="col-3">two</div>
-					<div class="col-3">three</div>
-					<div class="col-3">four</div>
+				<div class="row d-flex">
+					<!-- data goes here ->
 				</div>
 			</div>
 			<!-- /card footer --> `
@@ -140,6 +134,57 @@ class Table {
 				})
 			})
 		})
+	}
+
+
+	/*
+	 * adding sections to footer
+	 */
+	add_to_footer (values) {
+		/*
+		 * value = { index: .. , topic : .. , bg : .. }
+		 * values = [ value1, value2, value3 .. ]
+		 */
+		for (let value of values) {
+			let column_index = value.index
+			let topic = value.topic
+			let total = this.#get_total(column_index)
+			let bg_color = value.bg
+
+			/*
+			 * create the tag
+			 */
+			let tag = `
+				<div class="col-3 bg-${bg_color} d-flex flex-column align-items-start justify-content-center rounded-3 me-1" style="width:24.6% !important">
+					<h5 class="pt-2">${topic}</h5>
+					<span class="pb-2">Rs.${total}</span>
+				</div>
+			`
+
+			/* 
+			 * insert to tag to footer section
+			 */
+			this.#table.querySelector(".card-footer > .row").insertAdjacentHTML("beforeend", tag)
+		}
+	}
+
+
+	/*
+	 * get a total sum of specific column
+	 * @params index (start with 0)
+	 */
+	#get_total (index) {
+		let total = 0
+
+		for (let tr of this.#trs) {
+			let value = tr.querySelectorAll("td")[index].innerText
+
+			if (! isNaN(value)) {
+				total += Number(value)
+			}
+		}
+
+		return total
 	}
 
 }
