@@ -1,0 +1,35 @@
+.column-visibility-selector {
+	position:absolute;
+        background-color:#c5fffc !important;
+	font-size:20px;
+	display:none;
+}
+
+
+.column-visibility-selector > div {
+	text-align:center;
+	border-radius:5px;
+	padding:5px;
+	border:1.5px solid black;
+}
+
+
+.column-visibility-selector > .select{
+	background-color: #eee !important;
+	border:1.5px solid gray !important;
+}
+
+
+.show{
+	display:inherit;
+}
+
+
+.hide{
+	display:none;
+}
+
+
+.card-footer > .row > div:nth-child(2) {
+	background-color: var(--bs-yellow);
+}
