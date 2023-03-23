@@ -1,6 +1,6 @@
 class Table {
 	#id
-	#search
+	#search_box
 	#search_selector
 	#table
 	#ths
@@ -15,7 +15,7 @@ class Table {
 
 		this.#top_section() // load the top section
 
-		this.#search = this.#table.querySelector(".search") // search box
+		this.#search_box = this.#table.querySelector(".search") // search box
 		this.#search_selector = this.#table.querySelector(".search-selector") // search column option selector
 		this.#ths = this.#table.querySelectorAll("thead th") // select current table ths
 		this.#trs = this.#table.querySelectorAll("tbody tr") // select current table tbody trs
@@ -31,6 +31,7 @@ class Table {
 		this.#show_hide_column_visibility_options()
 		this.#show_hide_table_columns()
 
+		this.#search()
 	}
 
 
@@ -53,9 +54,7 @@ class Table {
 
 					<div class="col-4 d-flex justify-content-end align-items-center">
 						<label class="label me-2">Search</label>
-						<select class="form-select me-2 filter-column search-selector">
-							<option value="" disabled hidden selected>Select</option>
-						</select>
+						<select class="form-select me-2 filter-column search-selector"> </select>
 						<input type="search" name="search" class="search"/>
 					</div>
 				</div>
@@ -90,7 +89,7 @@ class Table {
 	#set_data_index() {
 		this.#ths.forEach((head, index) => {
 			this.#ths[index].setAttribute("data-index", index)
-			this.#search_selector.querySelectorAll("option")[index].setAttribute("data-index", index)
+			this.#search_selector.querySelectorAll("option")[index].setAttribute("value", index) // in search-selector-options instead of data-index value attribute is set
 			this.#column_visibility_options[index].setAttribute("data-index", index)
 			this.#trs.forEach(tr => {
 				tr.querySelector(`td:nth-child(${index+1})`).setAttribute("data-index", index)
@@ -198,22 +197,29 @@ class Table {
 	 * search the specific word in selected column
 	 * then filter only trs according to the search results
 	 */
-	search () {
-		this.#search.addEventListener("keyup", e => {
-			let index = e.target.getAttribute("data-index")
-			let search_word = e.target.value.replace(/[^a-zA-Z0-9]/g, "")
-			this.#trs.forEach(tr => {
+	#search () {
+		this.#search_box.addEventListener("keyup", e => {
+			let index = this.#search_selector.value // select the curret select value of the search_selector
+			let search_word = e.target.value.replace(/[^a-zA-Z0-9]/g, "").trim()
 
-				let tds = tr.querySelectorAll("td")
-				tr[index].closet("tr").classList.add("hide") // add the hide class from the tr
+			if ( search_word.length > 0 ) {
+				this.#trs.forEach(tr => {
 
-				/*
-				 * search if tds inner text match with pattern, if matched then only show that tr only
-				 */
-				if (tds[index].innerText.match("/.*" + search_word + ".*/")) {
-					tds[index].closest("tr").classList.add("hide")
-				}
-			})
+					let tds = tr.querySelectorAll("td")
+					tr.classList.add("hide") // add the hide class from the tr
+
+					/*
+					 * search if tds inner text match with pattern, if matched then only show that tr only 
+					 * it means remove the hide class from that tr
+					 */
+					if (tds[index].innerText.match(new RegExp(".*" + search_word + ".*"))) {
+						tr.classList.remove("hide")
+					}
+				})
+			}
+			else {
+				this.#trs.forEach(tr => tr.classList.remove("hide"))
+			}
 		})
 	}
 
