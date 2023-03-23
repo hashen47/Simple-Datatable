@@ -7,6 +7,7 @@ class Table {
 	#trs
 	#column_visibility_selector
 	#column_visibility_options
+	#footer_section_values
 
 
 	constructor (id) {
@@ -146,6 +147,8 @@ class Table {
 	 * adding sections to footer
 	 */
 	add_to_footer (values) {
+		this.#footer_section_values = values
+		this.#table.querySelector(".card-footer > .row").innerHTML = "" // remove every thing from the table-footer
 		/*
 		 * value = { index: .. , topic : .. , bg : .. }
 		 * values = [ value1, value2, value3 .. ]
@@ -182,10 +185,12 @@ class Table {
 		let total = 0
 
 		for (let tr of this.#trs) {
-			let value = tr.querySelectorAll("td")[index].innerText
+			if (! tr.classList.contains("hide")) {
+				let value = tr.querySelectorAll("td")[index].innerText
 
-			if (! isNaN(value)) {
-				total += Number(value)
+				if (! isNaN(value)) {
+					total += Number(value)
+				}
 			}
 		}
 
@@ -216,6 +221,12 @@ class Table {
 						tr.classList.remove("hide")
 					}
 				})
+
+				/*
+				 * after filter out the data 
+				 * then re-calculate table-footer sub sections total values
+				 */
+				this.add_to_footer(this.#footer_section_values)
 			}
 			else {
 				this.#trs.forEach(tr => tr.classList.remove("hide"))
