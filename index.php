@@ -54,7 +54,6 @@
 		{ index : 1, topic : "Estimate Amount", bg : "warning" }, 
 		{ index : 2, topic : "Cumilative Expenditure", bg : "success" }, 
 		{ index : 2, topic : "Cumilative Expenditure", bg : "success" }, 
-		{ index : 2, topic : "Cumilative Expenditure", bg : "success" }, 
 	])
 </script>
 </html>
