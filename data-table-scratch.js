@@ -8,6 +8,7 @@ class Table {
 	#column_visibility_selector
 	#column_visibility_options
 	#footer_section_values
+	#disabled_column_indexes
 
 
 	constructor (id) {
@@ -242,6 +243,30 @@ class Table {
 		this.#ths.forEach(th => {
 			let option = `<option>${th.innerText}</option>`
 			this.#search_selector.insertAdjacentHTML("beforeend", option)
+		})
+	}
+
+
+	/*
+	* @params column indexe (start with 0)
+	* get the disabled_columns_indexs and then disabled them
+	* in normal view, print view and excel view 
+	*/
+	disable_columns (disable_column_indexes=[]) {
+		this.#disabled_column_indexes = disable_column_indexes
+
+		this.#ths.forEach((th, index) => {
+			if (this.#disabled_column_indexes.includes(index)) {
+				/*
+				* disabled columns and ths
+				* which data-indexes are in the this.#disabled_column_indexes 
+				*/
+				th.classList.add("hide")
+				this.#trs.forEach(tr => {
+					let tds = tr.querySelectorAll("td")
+					tds[index].classList.add("hide")
+				})
+			}
 		})
 	}
 

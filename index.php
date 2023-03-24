@@ -22,6 +22,7 @@
 									<th>Approved Amount</th>
 									<th>Estimate Amount</th>
 									<th>Cumilation Expenditure</th>
+									<th>Monthly Expenditure</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -29,8 +30,10 @@
 									<td>20</td>
 									<td>20</td>
 									<td>20</td>
+									<td>20</td>
 								</tr>
 								<tr>
+									<td>20</td>
 									<td>20</td>
 									<td>20</td>
 									<td>20</td>
@@ -55,5 +58,7 @@
 		{ index : 2, topic : "Cumilative Expenditure", bg : "success" }, 
 		{ index : 2, topic : "Cumilative Expenditure", bg : "success" }, 
 	])
+
+	t.disable_columns([3])
 </script>
 </html>
