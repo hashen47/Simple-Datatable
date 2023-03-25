@@ -1,5 +1,7 @@
 class Table {
 	#id
+	#print_btn
+	#excel_btn
 	#search_box
 	#search_selector
 	#table
@@ -17,6 +19,8 @@ class Table {
 
 		this.#top_section() // load the top section
 
+		this.#print_btn = this.#table.querySelector(".print")
+		this.#excel_btn = this.#table.querySelector(".excel")
 		this.#search_box = this.#table.querySelector(".search") // search box
 		this.#search_selector = this.#table.querySelector(".search-selector") // search column option selector
 		this.#ths = this.#table.querySelectorAll("thead th") // select current table ths
@@ -34,6 +38,7 @@ class Table {
 		this.#show_hide_table_columns()
 
 		this.#search()
+		this.#print_table() // when press the print button then print the table
 	}
 
 
@@ -44,8 +49,8 @@ class Table {
 				<div class="col d-flex">
 					<div class="col-8 d-flex">
 						<div class="col d-flex">
-							<button class="btn btn-outline-success">Print</button>
-							<button class="btn btn-outline-primary ms-2">Excel</button>
+							<button class="btn btn-outline-success print">Print</button>
+							<button class="btn btn-outline-primary ms-2 excel">Excel</button>
 							<div class="col-5 ms-2" style="position:relative;">
 								<div class="form-select col">Column Visibility</div>
 								<div class="w-100 column-visibility-selector">
@@ -270,4 +275,26 @@ class Table {
 		})
 	}
 
+
+	/*
+	* print the table (only not disabled and filtered data)
+	*/
+	#print_table () {
+		this.#print_btn.addEventListener("click", () => {
+			// code goes here
+		})
+	}
+
+
+	/*
+	* get the excel of the table (only not disabled and filtered data)
+	*/
+	#excel () {
+		this.#excel_btn.addEventListener("click", () => {
+			// code goes here
+		})
+	}
 }
+
+
+console.log(this)
